@@ -18,6 +18,40 @@ Expressions are read right-to-left, even though the tree is left aligned. The
 tree is traversed depth-first, each branch combining it's leafs using it's
 designated math operator.
 
+### Example
+
+This expression: `"(4 / 59) * 2 + (-0.5 / 1.7) * 3.14"` is compiled into this binary tree:
+
+```
+                 +
+              /     \
+            "*"     "*"
+           /  \     /  \
+         "("   2  "("   3.14
+        /         /
+      "/"       "/"
+     /  \      /   \
+    4   59   -0.5   1.7
+```
+
+As for variables, simply create a dict where variables are key:value entries and
+pass it to `local_data` param when calling `evaluator.expression`, like so:
+
+```
+import math
+import evaluator
+
+# variables for our expression
+pi = math.pi
+pi2 = pi/2
+
+# expression using variables, yay!
+expr = "(4 / 59) * 2 + (-0.5 / pi2) * pi"
+
+# because variables are defined in local scope, simply use locals() as our variables dict
+result = evaluator.expression(expr, local_data=locals())
+```
+
 ### Why?
 
 Because Python rocks! - and I entertain myself making these contraptions :)
